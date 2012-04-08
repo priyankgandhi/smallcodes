@@ -6,57 +6,66 @@ public class BinarySearchTree {
 		rootNode = null;
 	}
 
-	public void insertNode(Object x) {
-		if (rootNode == null) {
+	public void insert(Object x) {
+		if(rootNode == null) {
 			rootNode = new BinaryNode();
 			rootNode.item = x;
 		} else {
 			BinaryNode node = rootNode;
 			while (node != null) {
-				//
 				if (((Comparable) x).compareTo(node.item) <= 0) {
-					if (node.leftNode != null) {
+					if(node.leftNode == null) {
+						node.leftNode = new BinaryNode(x);
+						break;
+					} else {
 						node = node.leftNode;
-					} else {
-						BinaryNode newNode = new BinaryNode();
-						newNode.item = x;
-						node.leftNode = newNode;
-						node = null;
-					}
+					}					
 				} else {
-					if (node.rightNode != null) {
-						node = node.rightNode;
+					if(node.rightNode == null) {
+						node.rightNode = new BinaryNode(x);
+						break;
 					} else {
-						BinaryNode newNode = new BinaryNode();
-						newNode.item = x;
-						node.rightNode = newNode;
-						node = null;
+						node = node.rightNode;
 					}
 				}
-			}
-		}
-	}
-
-	public void inOrderTraversal(BinaryNode node) {
-		System.out.println("---"+node.item + " is saying: Checking for left node");
-		if (node.leftNode != null) {
-			System.out.println("Found, going inside left node");
-			inOrderTraversal(node.leftNode);
-		} 
-		System.out.println("Done with left node or no left node left. So printing myself: " +node.item);
-		//System.out.println(node.item);		
-		System.out.println("Checking for right node now");
-		if (node.rightNode != null) {
-			System.out.println("Found, going inside right node");
-			inOrderTraversal(node.rightNode);
-		}
-		System.out.println("***"+node.item + " is saying: Done with right node or no right node left. Going to previous state.");
+			}			
+		}		
 	}
 	
-	static int sum = 0;
+	//traversals
+	
+	//in-order left-root-right
+	public void inOrder() {
+		System.out.println("\nin-order left-root-right");		
+		if(rootNode == null) {
+			return;
+		} else {
+			inOrderTraversal(rootNode);			
+		}		
+	}
+	
+	public void inOrderTraversal(BinaryNode node) {		
+		if (node.leftNode != null) {			
+			inOrderTraversal(node.leftNode);
+		} 
+		System.out.print(node.item + " ");		
+		if (node.rightNode != null) {			
+			inOrderTraversal(node.rightNode);
+		}		
+	}
+	
+	//pre-order root-left-right
+	public void preOrder() {
+		System.out.println("\npre-order root-left-right");
+		if(rootNode == null) {
+			return;
+		} else {
+			preOrderTraversal(rootNode);			
+		}		
+	}
+	
 	public void preOrderTraversal(BinaryNode node) {
-		System.out.println(node.item);
-		sum = sum + (Integer)node.item;
+		System.out.print(node.item + " ");
 		if (node.leftNode != null) {
 			preOrderTraversal(node.leftNode);
 		}
@@ -65,16 +74,27 @@ public class BinarySearchTree {
 		}
 	}
 	
+	
+	//post-order left-right-root
+	public void postOrder() {
+		System.out.println("\npost-order left-right-root");
+		if(rootNode == null) {
+			return;
+		} else {
+			postOrderTraversal(rootNode);			
+		}		
+	}
 	public void postOrderTraversal(BinaryNode node) {
 		if (node.leftNode != null){
-		postOrderTraversal(node.leftNode);
+			postOrderTraversal(node.leftNode);
 		}
 		if(node.rightNode != null) {
 			postOrderTraversal(node.rightNode);
 		}
-		System.out.println(node.item);
+		System.out.print(node.item + " ");
 	}
 	
+	// find min - left most node
 	public BinaryNode findMin(BinaryNode node) {
 		while (node.leftNode!=null) {
 			node = node.leftNode;
@@ -82,6 +102,7 @@ public class BinarySearchTree {
 		return node;
 	}
 	
+	// find max - right most node
 	public BinaryNode findMax(BinaryNode node) {
 		while (node.rightNode!=null) {
 			node = node.rightNode;
@@ -91,8 +112,7 @@ public class BinarySearchTree {
 	
 	
 	
-	public void delete(Object x)
-	{
+	public void delete(Object x) {
 		
 	}
 	
@@ -126,20 +146,62 @@ public class BinarySearchTree {
 		return true;
 	}
 	
+	// find depth of binary tree
+	public int findDepth() {
+		return 	findDepthFromNode(rootNode);
+	}
 	
-	public static void main(String[] args) {
-		BinarySearchTree bst = new BinarySearchTree();
-		bst.insertNode(8);
-		bst.insertNode(6);
-		bst.insertNode(15);
-		bst.insertNode(7);
-		bst.insertNode(2);
-		bst.insertNode(9);
-		//bst.inOrderTraversal(rootNode);
-		//bst.preOrderTraversal(rootNode);
-		//bst.postOrderTraversal(rootNode);
-		//System.out.println("*** Sum is " + sum);
-		System.out.println(bst.isValidBST()+"");
+	public int findDepthFromNode(BinaryNode node) {
+		if(node == null) {
+			return 0;
+		} else {
+			int lDepth = findDepthFromNode(node.leftNode);
+		    int rDepth = findDepthFromNode(node.rightNode);
+
+		    int maxD = Math.max(lDepth, rDepth) + 1;
+//		    System.out.print("current node: " + node);		
+//			System.out.println(" max level: " + maxD);	
+		    return(maxD);	
+		}
+	}
+	
+	
+	// mirror binary tree
+	public void mirrorTree() {
+		mirrorTree(rootNode);
+	}
+	
+	public void mirrorTree(BinaryNode node) {
+		if(node == null) {
+			return;
+		}
+		mirrorTree(node.leftNode);	
+		mirrorTree(node.rightNode);
 		
+		BinaryNode temp = node.leftNode;
+		node.leftNode = node.rightNode;
+		node.rightNode = temp;
+	}
+	
+	
+//						8
+//			6						15
+//		2		7			9
+//			5					10
+
+	public static void main(String[] args) {
+		System.out.println("Building binary tree");
+		BinarySearchTree bst = new BinarySearchTree();
+		bst.insert(8); bst.insert(6);
+		bst.insert(15); bst.insert(7);
+		bst.insert(2); bst.insert(9);
+		bst.insert(10); bst.insert(5);
+		bst.inOrder();
+		bst.preOrder();
+		bst.postOrder();
+		System.out.println("\n\nValid binary tree: "+ bst.isValidBST());		
+		int depth = bst.findDepth();
+		System.out.println("\nDepth of this tree: " + depth);
+		bst.mirrorTree();
 	}
 }
