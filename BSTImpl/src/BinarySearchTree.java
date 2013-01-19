@@ -13,7 +13,7 @@ public class BinarySearchTree {
 		} else {
 			BinaryNode node = rootNode;
 			while (node != null) {
-				if (((Comparable) x).compareTo(node.item) <= 0) {
+				if (((Comparable) x).compareTo(node.item) > 0) {
 					if(node.leftNode == null) {
 						node.leftNode = new BinaryNode(x);
 						break;
@@ -166,6 +166,22 @@ public class BinarySearchTree {
 	}
 	
 	
+	public int size() {
+		return traverseNodes(rootNode, 0);
+	}
+	
+	public int traverseNodes(BinaryNode node, int c) {
+		if(node.leftNode != null) {			
+			c = traverseNodes(node.leftNode, c);
+		}
+		System.out.print(node.item + ",");
+		c++;
+ 		if(node.rightNode != null) {			
+			c = traverseNodes(node.rightNode, c);
+		}
+		return c;
+	}
+	
 	// mirror binary tree
 	public void mirrorTree() {
 		mirrorTree(rootNode);
@@ -202,6 +218,8 @@ public class BinarySearchTree {
 		System.out.println("\n\nValid binary tree: "+ bst.isValidBST());		
 		int depth = bst.findDepth();
 		System.out.println("\nDepth of this tree: " + depth);
-		bst.mirrorTree();
+		bst.mirrorTree();	
+		int size = bst.size();
+		System.out.println("Size of btree "+ size);
 	}
 }
