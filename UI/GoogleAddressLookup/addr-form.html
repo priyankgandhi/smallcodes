@@ -1,0 +1,15 @@
+<script type="text/javascript">    
+    $(function() {
+        var input = document.getElementById('searchTextField');
+        var autocomplete = new google.maps.places.Autocomplete(input);
+		google.maps.event.addListener(autocomplete, 'place_changed', function() {
+			var place = autocomplete.getPlace();
+			$('#selected').text("Place selected:" +place.formatted_address)
+		});
+    });
+</script>
+<div>
+      <input id="searchTextField" type="text" size="50"/>
+</div>
+
+<div id="selected">No address selected</div>
