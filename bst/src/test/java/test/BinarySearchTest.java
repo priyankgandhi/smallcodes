@@ -42,7 +42,7 @@ public class BinarySearchTest extends TestCase {
 	
 	@Test
 	public void testDelete() {
-		System.out.println("Test insert started");
+		System.out.println("Test delete started");
 		Assert.assertEquals(bst.toString(), "3569");
 		bst.insert(1);
 		bst.insert(4);
@@ -51,7 +51,7 @@ public class BinarySearchTest extends TestCase {
 		System.out.println(bst.toString());
 		Assert.assertEquals(bst.toString(), "13469");
 		System.out.println(bst.toString());
-		System.out.println("Trsting insert completed");
+		System.out.println("Test delete completed");
 	}
 	
 }
