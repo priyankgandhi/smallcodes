@@ -113,7 +113,6 @@ public class BinarySearchTree {
 	
 	public void delete(int x) {
 		deleteNode(x, null, rootNode);
-		System.out.println(rootNode);		
 	}
 	
 	private void deleteNode(Integer x, BinaryNode parent, BinaryNode node) {
@@ -125,7 +124,6 @@ public class BinarySearchTree {
 		} else {
 			boolean isLeftNode = parent != null && parent.leftNode != null  && parent.leftNode == node;
 			if (node.leftNode != null && node.rightNode != null) {
-				System.out.println("test "+node.item);
 				node.item = findMinValue(node.rightNode);				
 				deleteNode((Integer)node.item, node, node.rightNode);
 			} else if (node.leftNode != null) {
