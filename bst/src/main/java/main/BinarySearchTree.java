@@ -109,12 +109,55 @@ public class BinarySearchTree {
 			node = node.rightNode;
 		}
 		return node;
+	}	
+	
+	public void delete(int x) {
+		deleteNode(x, null, rootNode);
+		System.out.println(rootNode);		
 	}
 	
+	private void deleteNode(Integer x, BinaryNode parent, BinaryNode node) {
+		Integer nodeValue = (Integer) node.item;
+		if (x < nodeValue) {			
+			deleteNode(x, node, node.leftNode);			
+		} else if (x > nodeValue) {
+			deleteNode(x, node, node.rightNode);
+		} else {
+			boolean isLeftNode = parent != null && parent.leftNode != null  && parent.leftNode == node;
+			if (node.leftNode != null && node.rightNode != null) {
+				System.out.println("test "+node.item);
+				node.item = findMinValue(node.rightNode);				
+				deleteNode((Integer)node.item, node, node.rightNode);
+			} else if (node.leftNode != null) {
+				if(parent == null) {
+					node = node.leftNode;
+				} else if (isLeftNode) {
+					parent.leftNode = node.leftNode;
+				}
+				else {
+					parent.rightNode = node.leftNode;
+				}
+				
+			} else {
+				if(parent == null) {
+					node = node.rightNode;
+				} else if (isLeftNode) {
+					parent.leftNode = node.rightNode;
+				}
+				else {
+					parent.rightNode = node.rightNode;
+				}
+			}			
+		}		
+	}
 	
-	
-	public void delete(Object x) {
-		
+	private Object findMinValue(BinaryNode node) {
+		if (node.leftNode == null) {
+			Object item = node.item;
+			return item;
+		} else {
+			return findMinValue(node.leftNode);
+		}		
 	}
 	
 	
