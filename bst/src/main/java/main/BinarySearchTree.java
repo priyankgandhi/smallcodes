@@ -1,8 +1,9 @@
+package main;
 public class BinarySearchTree {
 
 	static BinaryNode rootNode;
 
-	BinarySearchTree() {
+	public BinarySearchTree() {
 		rootNode = null;
 	}
 
@@ -13,7 +14,7 @@ public class BinarySearchTree {
 		} else {
 			BinaryNode node = rootNode;
 			while (node != null) {
-				if (((Comparable) x).compareTo(node.item) > 0) {
+				if (((Comparable) x).compareTo(node.item) <= 0) {
 					if(node.leftNode == null) {
 						node.leftNode = new BinaryNode(x);
 						break;
@@ -197,6 +198,19 @@ public class BinarySearchTree {
 		BinaryNode temp = node.leftNode;
 		node.leftNode = node.rightNode;
 		node.rightNode = temp;
+	}
+	
+	public String toString() {
+		StringBuffer sb = new StringBuffer();
+		inorderToString(rootNode, sb);
+		return sb.toString();	
+	}
+	
+	public void inorderToString(BinaryNode node, StringBuffer sb) {
+		if(node == null) return; 
+		inorderToString(node.leftNode, sb);
+		sb.append(node.toString());
+		inorderToString(node.rightNode, sb);
 	}
 	
 	
